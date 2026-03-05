@@ -1,0 +1,20 @@
+Package: SNMF
+Title: Spatial Non-Negative Matrix Factorization (SNMF)
+Version: 0.0.0.9000
+Authors@R:
+    c(person("Luis", "Alonso", email = "laesteban@unav.es", role = c("aut", "cre"), comment = c(ORCID = "0009-0000-8201-6302")),
+    person("Idoia", "Ochoa", email = "iochoal@unav.es", role = "aut", comment = c(ORCID = "0000-0003-1864-7868")),
+    person("Angel", "Rubio", email = "arubio@tecnun.es", role = c("aut","ctb"), comment = c(ORCID = "0000-0002-3274-2450")))
+Description: Implements SNMF, a Spatial Non-Negative Matrix Factorization method.
+Depends:
+  R (>= 4.1)
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports:
+    Matrix
+Remotes:
+    ceslobfer/GPUmatrix
+Suggests:
+    torch
