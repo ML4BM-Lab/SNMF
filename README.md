@@ -17,7 +17,7 @@ This repository contains the package of SNMF, wich can be installed by running:
 devtools::install_github("LuisAlonsoEsteban/SNMF")
 ```
 
-Before installing **SNMF**, make sure that the **GPUmatrix** package is installed and working on your system. See the [installation instructions](https://github.com/ceslobfer/GPUmatrix)
+Before installing **SNMF**, make sure that the **GPUmatrix** package is installed and working on your system. See the [installation instructions](https://github.com/ceslobfer/GPUmatrix?tab=readme-ov-file#0-installation)
 
 ## Usage
 
