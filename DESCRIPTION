@@ -16,4 +16,8 @@ Imports:
     Matrix,
     GPUmatrix,
     matrixStats
+Remotes:
+    LuisAlonsoEsteban/GPUmatrix
+Suggests:
+    torch
 LazyData: true
