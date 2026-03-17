@@ -1,4 +1,4 @@
-NMFKLMixing <- function (V, S = diag(ncol(V)), k = 10, Winit = NULL, Hinit = NULL, tol = 1e-03, 
+KLMixing <- function (V, S = diag(ncol(V)), k = 10, Winit = NULL, Hinit = NULL, tol = 1e-03, 
                          niter = 100, num_initializations=10) 
 {
   dtype = "float32" # Define the data type for GPU matrices
@@ -10,12 +10,12 @@ NMFKLMixing <- function (V, S = diag(ncol(V)), k = 10, Winit = NULL, Hinit = NUL
   if (!is.null(objectPackage) && (objectClass == "gpu.matrix.torch" || objectClass == "gpu.matrix.tensorflow")) {
     # If V is a GPU matrix, initialize Winit and Hinit as GPU matrices
     if (is.null(Winit)) {
-      Winit <- gpu.matrix(runif(nrow(V) * k), nrow(V), k, 
+      Winit <- GPUmatrix::gpu.matrix(runif(nrow(V) * k), nrow(V), k, 
                           dtype = dtype(V), type = GPUmatrix:::typeGPUmatrix(V), 
                           device = GPUmatrix:::device(V))
     }
     if (is.null(Hinit)) {
-      Hinit <- gpu.matrix(runif(k * ncol(V)), k, ncol(V), 
+      Hinit <- GPUmatrix::gpu.matrix(runif(k * ncol(V)), k, ncol(V), 
                           dtype = dtype(V), type = GPUmatrix:::typeGPUmatrix(V), 
                           device = GPUmatrix:::device(V))
     }
@@ -35,8 +35,8 @@ NMFKLMixing <- function (V, S = diag(ncol(V)), k = 10, Winit = NULL, Hinit = NUL
   Vold <- V # Store the initial V for convergence check
   
   # Initialize S1 and S2 for update rules, as GPU matrices if applicable
-  S1 <- gpu.matrix(dtype = dtype, 1, nrow = nrow(Winit), ncol = nrow(S)) %*% S
-  S2 <- gpu.matrix(dtype = dtype, 1, nrow = nrow(V), ncol = ncol(V))
+  S1 <- GPUmatrix::gpu.matrix(dtype = dtype, 1, nrow = nrow(Winit), ncol = nrow(S)) %*% S
+  S2 <- GPUmatrix::gpu.matrix(dtype = dtype, 1, nrow = nrow(V), ncol = ncol(V))
   
   # --- Multiple Initializations and Best Selection ---
   initial_iterations <- max(1, floor(niter / 10)) # Number of iterations for each initialization
@@ -48,10 +48,10 @@ NMFKLMixing <- function (V, S = diag(ncol(V)), k = 10, Winit = NULL, Hinit = NUL
   for (init_run in 1:num_initializations) {
     # Re-initialize W and H for each run
     if (!is.null(objectPackage) && (objectClass == "gpu.matrix.torch" || objectClass == "gpu.matrix.tensorflow")) {
-      W_current <- gpu.matrix(runif(nrow(V) * k), nrow(V), k, 
+      W_current <- GPUmatrix::gpu.matrix(runif(nrow(V) * k), nrow(V), k, 
                               dtype = dtype(V), type = GPUmatrix:::typeGPUmatrix(V), 
                               device = GPUmatrix:::device(V))
-      H_current <- gpu.matrix(runif(k * ncol(V)), k, ncol(V), 
+      H_current <- GPUmatrix::gpu.matrix(runif(k * ncol(V)), k, ncol(V), 
                               dtype = dtype(V), type = GPUmatrix:::typeGPUmatrix(V), 
                               device = GPUmatrix:::device(V))
     } else {

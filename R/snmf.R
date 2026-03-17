@@ -41,12 +41,12 @@
 #' @export
 snmf <- function(counts, S, k, niter=2000, tol=1e-4, num_initializations=10, probs=0.75, seed=42) {
 
-    gpu_counts <- gpu.matrix(counts, dtype = "float32")
-    S <- gpu.matrix(S, dtype = "float32")
+    gpu_counts <-  GPUmatrix::gpu.matrix(counts, dtype = "float32")
+    S <-  GPUmatrix::gpu.matrix(S, dtype = "float32")
 
     set.seed(seed)
 
-    output <- NMFKLMixing(gpu_counts, S = S, k = k,
+    output <- KLMixing(gpu_counts, S = S, k = k,
                         niter = niter, tol = tol, num_initializations=num_initializations)
 
     W <- as.matrix(output$W)
