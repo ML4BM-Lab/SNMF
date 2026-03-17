@@ -16,8 +16,4 @@ Imports:
     Matrix,
     GPUmatrix,
     matrixStats
-Remotes:
-    ceslobfer/GPUmatrix
-Suggests:
-    torch
 LazyData: true
