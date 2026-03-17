@@ -51,19 +51,23 @@ load_data <- function(counts, filter_th=10, tau=0.5, S_th=1e-3){
     x <- positions[,1]
     y <- positions[,2]
 
-    meanValue <- function(gamma, x, y, tau) {
-        S <- exp(-gamma * as.matrix(dist(cbind(x,y)))^2)
+    D2 <- as.matrix(dist(cbind(x, y)))^2
+
+    meanValue <- function(gamma, D2, tau) {
+        S <- exp(-gamma * D2)
         S[S < S_th] <- 0 
-        S <- Diagonal(x = 1/rowSums(S)) %*% S
-        return((mean(diag(S))-tau)^2)
+        rs <- rowSums(S)
+        rs[rs == 0] <- 1
+        S <- Matrix::Diagonal(x = 1/rs) %*% S
+        return((mean(Matrix::diag(S)) - tau)^2)
     }
 
-    gamma <- optim(1, meanValue, method="BFGS", tau=tau, x=x, y=y)$par
+    gamma <- optim(1, meanValue, method="BFGS", tau=tau, D2=D2)$par
 
     S <- exp(-gamma * as.matrix(dist(cbind(x,y)))^2)
     S[S < S_th] <- 0 
 
-    S <- Diagonal(x = 1/rowSums(S)) %*% S
+    S <- Matrix::Diagonal(x = 1/rowSums(S)) %*% S
 
     return(list(counts=counts, S=S))
 
