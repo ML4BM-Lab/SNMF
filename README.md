@@ -50,3 +50,9 @@ results <- snmf(counts, S, 5, niter=2000, tol=1e-4, num_initializations=10, prob
 H <- results$H
 W <- results$W
 ```
+
+For further questions or to report a problem, please [open an issue on GitHub](https://github.com/LuisAlonsoEsteban/SNMF/issues/new). 
+
+## Contact
+
+Luis Alonso Esteban — [laesteban@unav.es](mailto:laesteban@unav.es)

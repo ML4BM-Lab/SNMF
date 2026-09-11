@@ -8,7 +8,10 @@ snmf(
   counts,
   S,
   k,
+  Winit = NULL,
+  Hinit = NULL,
   niter = 2000,
+  Rupdate_iter = 10,
   tol = 1e-04,
   num_initializations = 10,
   probs = 0.75,
@@ -22,7 +25,13 @@ snmf(
 
 \item{k}{Integer, number of components used for the factorization, e.g. the number of cell-types used for deconvolution.}
 
+\item{Winit}{Initialization of W (default NULL).}
+
+\item{Hinit}{Initialization of H (default NULL).}
+
 \item{niter}{Integer, maximum number of iterations for the NMF algorithm (default 2000).}
+
+\item{Rupdate_iter}{Integer, number of iterations after which dispersion matrix R is updated (default 10).}
 
 \item{tol}{Numeric, convergence tolerance for the NMF algorithm (default 1e-4).}
 
@@ -33,10 +42,14 @@ snmf(
 \item{seed}{Integer, random seed for reproducibility (default 42).}
 }
 \value{
-A list with two elements:
+A list with six elements:
 \describe{
 \item{W}{Numeric matrix (features × k), representing basis vectors for features.}
 \item{H}{Numeric matrix (k × observations), representing coefficients for each observation.}
+\item{phi}{Numeric matrix (features × observations), representing the inverse-dispersion parameter for each observation $\phi_{ij}$.}
+\item{alpha}{Numeric vector of the number of features as dimension, representing the inverse-dispersion contribution of each gene.}
+\item{beta}{Numeric vector of the number of observations as dimension, representing the inverse-dispersion contribution of each spot.}
+\item{niter}{Number of iterations run until convergence.}
 }
 }
 \description{
@@ -48,7 +61,7 @@ This function performs spatially regularized NMF on the input count matrix:
 \enumerate{
 \item Converts \code{counts} and \code{S} to GPU matrices for efficient computation.
 \item Sets the random seed for reproducibility.
-\item Runs the \code{NMFKLMixing} algorithm on the GPU, with \code{k} factors.
+\item Runs the \code{SNMF} algorithm on the GPU, with \code{k} factors.
 \item Normalizes the W (basis) and H (coefficient) matrices using the specified quantile.
 \item Computes a normalized H matrix (\code{HC}) representing proportions per spot.
 \item Assigns row and column names to W and H matrices based on the input counts.
@@ -57,7 +70,7 @@ This function performs spatially regularized NMF on the input count matrix:
 \examples{
 \dontrun{
 # counts and S returned from load_data()
-result <- snmf(counts, S, niter = 1000, tol = 1e-4, num_initializations = 5)
+result <- snmf(counts, S, niter = 1000, Rupdate_iter=20, tol = 1e-4, num_initializations = 5)
 W <- result$W
 H <- result$H
 }

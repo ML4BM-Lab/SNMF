@@ -20,3 +20,13 @@ controlDimensionNMF <- function (W, H, V, k) {
     stop("V (original matrix) and W (basis matrix) must have the same number of rows.")
   }
 }
+
+safe_pmax <- function(X, eps) {
+  objectClass <- class(X)[[1]]
+
+  if (objectClass == "gpu.matrix.torch" || objectClass == "gpu.matrix.tensorflow") {
+    return(X + (X < eps) * (eps - X))
+  }
+
+  pmax(X, eps)
+}
