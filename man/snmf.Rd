@@ -46,7 +46,7 @@ A list with six elements:
 \describe{
 \item{W}{Numeric matrix (features × k), representing basis vectors for features.}
 \item{H}{Numeric matrix (k × observations), representing coefficients for each observation.}
-\item{phi}{Numeric matrix (features × observations), representing the inverse-dispersion parameter for each observation $\phi_{ij}$.}
+\item{phi}{Numeric matrix (features × observations), representing the inverse-dispersion parameter for each entry.}
 \item{alpha}{Numeric vector of the number of features as dimension, representing the inverse-dispersion contribution of each gene.}
 \item{beta}{Numeric vector of the number of observations as dimension, representing the inverse-dispersion contribution of each spot.}
 \item{niter}{Number of iterations run until convergence.}
