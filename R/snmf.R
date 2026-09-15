@@ -74,7 +74,7 @@ snmf <- function(
         niter = niter, 
         Rupdate_iter = Rupdate_iter,
         tol = tol, 
-        num_initializations=num_initializations,
+        num_initializations=num_initializations
     )
 
     W <- as.matrix(output$W)
