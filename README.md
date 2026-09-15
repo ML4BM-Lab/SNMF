@@ -12,12 +12,81 @@ This repository contains the official implementation accompanying the paper:
 
 ## Installation
 
-This repository contains the package of SNMF, wich can be installed by running:
-```R
-devtools::install_github("LuisAlonsoEsteban/SNMF")
+Install SNMF from GitHub:
+
+```r
+install.packages("remotes") # If not already installed
+remotes::install_github("LuisAlonsoEsteban/SNMF")
 ```
 
-Before installing **SNMF**, make sure that the **GPUmatrix** package is installed and working on your system. See the [installation instructions](https://github.com/ceslobfer/GPUmatrix?tab=readme-ov-file#0-installation)
+GPUmatrix is installed automatically as an R package dependency. To run SNMF,
+configure **one** of its tensor backends: **torch** (the default) or
+**TensorFlow**. Both R packages are available on CRAN; their tensor libraries
+require the additional setup below.
+
+### Option 1: torch (default)
+
+```r
+install.packages("torch")
+torch::install_torch() # If the tensor libraries were not installed automatically
+```
+
+Follow the [torch installation guide](https://torch.mlverse.org/docs/articles/installation.html)
+for your operating system and CPU or GPU build. CUDA and cuDNN requirements depend
+on the torch version; supported prebuilt GPU binaries can include these libraries.
+
+Check whether torch can use CUDA:
+
+```r
+torch::cuda_is_available()
+```
+
+With the torch backend, GPUmatrix automatically selects CUDA when available and
+otherwise uses the CPU. SNMF defaults to torch; to select it explicitly, run this
+before calling `snmf()`:
+
+```r
+options(typeTensor = "torch")
+```
+
+### Option 2: TensorFlow
+
+TensorFlow requires a compatible Python 3 installation in addition to the R
+package. Follow the [TensorFlow for R installation guide](https://tensorflow.rstudio.com/install/)
+for Python setup and platform-specific instructions.
+
+```r
+install.packages("tensorflow")
+# If a compatible Python installation is not already available:
+# reticulate::install_python()
+tensorflow::install_tensorflow()
+```
+
+For a CPU-only installation, use `tensorflow::install_tensorflow(version = "cpu")`
+instead. GPU setup depends on your operating system and TensorFlow version; see
+the [TensorFlow GPU guide](https://tensorflow.rstudio.com/install/local_gpu.html).
+
+After installation, select TensorFlow in each R session before running `snmf()`:
+
+```r
+options(typeTensor = "tensorflow")
+```
+
+Check the GPUs visible to TensorFlow:
+
+```r
+tensorflow::tf$config$list_physical_devices("GPU")
+```
+
+An empty list means TensorFlow is not detecting a GPU. GPUmatrix's TensorFlow
+backend relies on TensorFlow's device configuration.
+
+### GPU requirements
+
+For CUDA acceleration, use a [compatible NVIDIA GPU](https://developer.nvidia.com/cuda-gpus)
+with a supported NVIDIA driver and the runtime libraries required by your chosen
+backend. Follow the backend's installation guide for matching versions of CUDA
+and cuDNN. A working CPU backend can run SNMF without a compatible GPU.
 
 ## Usage
 
