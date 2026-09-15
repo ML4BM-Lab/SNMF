@@ -125,25 +125,3 @@ For further questions or to report a problem, please [open an issue on GitHub](h
 ## Contact
 
 Luis Alonso Esteban — [laesteban@unav.es](mailto:laesteban@unav.es)
-
-## Checking package dispatch
-
-From the package directory, install and test in a fresh R session:
-
-```sh
-R CMD INSTALL .
-Rscript --vanilla tests/installed-dispatch.R
-```
-
-To also exercise the bundled data through factorization, dispersion updates, and
-rescaling, use an environment with a working GPUmatrix tensor backend:
-
-```sh
-SNMF_TEST_GPU=true Rscript --vanilla tests/installed-dispatch.R
-```
-
-The integration check first runs with only SNMF attached, then compares with the
-same functions in a script environment with GPUmatrix attached. It checks the
-random-number-generator state exactly and numerical outputs within a tolerance
-of `1e-6`. The compatibility changes preserve random-start initialization,
-update equations, normalization, convergence, and the existing return structure.
