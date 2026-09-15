@@ -16,6 +16,7 @@ Imports:
     Matrix,
     GPUmatrix,
     matrixStats,
+    methods,
     stats
 Suggests:
     torch

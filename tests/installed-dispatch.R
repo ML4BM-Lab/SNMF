@@ -5,8 +5,14 @@ library(SNMF)
 stopifnot(!"package:GPUmatrix" %in% search())
 
 ns <- asNamespace("SNMF")
-for (name in c("as.matrix", "colSums", "mean", "ncol", "nrow", "rowSums", "t")) {
-    stopifnot(identical(get(name, envir = ns), getExportedValue("GPUmatrix", name)))
+for (name in c("as.matrix", "colSums", "mean", "rowSums", "t")) {
+    generic <- methods::getGeneric(name, where = ns)
+    stopifnot(!is.null(generic))
+    for (class in c("gpu.matrix.torch", "gpu.matrix.tensorflow")) {
+        actual <- methods::selectMethod(generic, class)
+        expected <- methods::selectMethod(methods::getGeneric(name, where = asNamespace("GPUmatrix")), class)
+        stopifnot(identical(actual, expected))
+    }
 }
 
 # CPU reference for the NB multiplicative updates, independent of GPU dispatch.
