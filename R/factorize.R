@@ -11,6 +11,8 @@ factorize <- function(
 )
 {
 
+  # GPUmatrix versions differ in which metadata accessors they export.
+  # Keep namespace access for dtype/type/device, matching the original script.
   dtype <- "float32"
 
   objectClass <- class(V)[[1]]
@@ -22,7 +24,7 @@ factorize <- function(
     if (is.null(Winit)) {
       Winit <- GPUmatrix::gpu.matrix(
         stats::runif(nrow(V) * k), nrow(V), k,
-        dtype = GPUmatrix::dtype(V),
+        dtype = GPUmatrix:::dtype(V),
         type = GPUmatrix:::typeGPUmatrix(V),
         device = GPUmatrix:::device(V)
       )
@@ -31,7 +33,7 @@ factorize <- function(
     if (is.null(Hinit)) {
       Hinit <- GPUmatrix::gpu.matrix(
         stats::runif(k * ncol(V)), k, ncol(V),
-        dtype = GPUmatrix::dtype(V),
+        dtype = GPUmatrix:::dtype(V),
         type = GPUmatrix:::typeGPUmatrix(V),
         device = GPUmatrix:::device(V)
       )
@@ -60,7 +62,7 @@ factorize <- function(
       beta = rep(0, ncol(V)),
       phi = GPUmatrix::gpu.matrix(
         matrix(1e-4, nrow(V), ncol(V)),
-        dtype = GPUmatrix::dtype(V),
+        dtype = GPUmatrix:::dtype(V),
         type = GPUmatrix:::typeGPUmatrix(V),
         device = GPUmatrix:::device(V)
       ),
@@ -96,14 +98,14 @@ factorize <- function(
 
       W_current <- GPUmatrix::gpu.matrix(
         stats::runif(nrow(V) * k), nrow(V), k,
-        dtype = GPUmatrix::dtype(V),
+        dtype = GPUmatrix:::dtype(V),
         type = GPUmatrix:::typeGPUmatrix(V),
         device = GPUmatrix:::device(V)
       )
 
       H_current <- GPUmatrix::gpu.matrix(
         stats::runif(k * ncol(V)), k, ncol(V),
-        dtype = GPUmatrix::dtype(V),
+        dtype = GPUmatrix:::dtype(V),
         type = GPUmatrix:::typeGPUmatrix(V),
         device = GPUmatrix:::device(V)
       )
