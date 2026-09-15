@@ -20,18 +20,18 @@ factorize <- function(
       (objectClass == "gpu.matrix.torch" || objectClass == "gpu.matrix.tensorflow")) {
 
     if (is.null(Winit)) {
-      Winit <- GPUmatrix:::gpu.matrix(
-        runif(nrow(V) * k), nrow(V), k,
-        dtype = GPUmatrix:::dtype(V),
+      Winit <- GPUmatrix::gpu.matrix(
+        stats::runif(nrow(V) * k), nrow(V), k,
+        dtype = GPUmatrix::dtype(V),
         type = GPUmatrix:::typeGPUmatrix(V),
         device = GPUmatrix:::device(V)
       )
     }
 
     if (is.null(Hinit)) {
-      Hinit <- GPUmatrix:::gpu.matrix(
-        runif(k * ncol(V)), k, ncol(V),
-        dtype = GPUmatrix:::dtype(V),
+      Hinit <- GPUmatrix::gpu.matrix(
+        stats::runif(k * ncol(V)), k, ncol(V),
+        dtype = GPUmatrix::dtype(V),
         type = GPUmatrix:::typeGPUmatrix(V),
         device = GPUmatrix:::device(V)
       )
@@ -40,11 +40,11 @@ factorize <- function(
   } else {
 
     if (is.null(Winit)) {
-      Winit <- matrix(runif(nrow(V) * k), nrow(V), k)
+      Winit <- matrix(stats::runif(nrow(V) * k), nrow(V), k)
     }
 
     if (is.null(Hinit)) {
-      Hinit <- matrix(runif(k * ncol(V)), k, ncol(V))
+      Hinit <- matrix(stats::runif(k * ncol(V)), k, ncol(V))
     }
   }
 
@@ -58,9 +58,9 @@ factorize <- function(
     R <- list(
       alpha = rep(0, nrow(V)),
       beta = rep(0, ncol(V)),
-      phi = GPUmatrix:::gpu.matrix(
+      phi = GPUmatrix::gpu.matrix(
         matrix(1e-4, nrow(V), ncol(V)),
-        dtype = GPUmatrix:::dtype(V),
+        dtype = GPUmatrix::dtype(V),
         type = GPUmatrix:::typeGPUmatrix(V),
         device = GPUmatrix:::device(V)
       ),
@@ -94,24 +94,24 @@ factorize <- function(
     if (!is.null(objectPackage) &&
         (objectClass == "gpu.matrix.torch" || objectClass == "gpu.matrix.tensorflow")) {
 
-      W_current <- GPUmatrix:::gpu.matrix(
-        runif(nrow(V) * k), nrow(V), k,
-        dtype = GPUmatrix:::dtype(V),
+      W_current <- GPUmatrix::gpu.matrix(
+        stats::runif(nrow(V) * k), nrow(V), k,
+        dtype = GPUmatrix::dtype(V),
         type = GPUmatrix:::typeGPUmatrix(V),
         device = GPUmatrix:::device(V)
       )
 
-      H_current <- GPUmatrix:::gpu.matrix(
-        runif(k * ncol(V)), k, ncol(V),
-        dtype = GPUmatrix:::dtype(V),
+      H_current <- GPUmatrix::gpu.matrix(
+        stats::runif(k * ncol(V)), k, ncol(V),
+        dtype = GPUmatrix::dtype(V),
         type = GPUmatrix:::typeGPUmatrix(V),
         device = GPUmatrix:::device(V)
       )
 
     } else {
 
-      W_current <- matrix(runif(nrow(V) * k), nrow(V), k)
-      H_current <- matrix(runif(k * ncol(V)), k, ncol(V))
+      W_current <- matrix(stats::runif(nrow(V) * k), nrow(V), k)
+      H_current <- matrix(stats::runif(k * ncol(V)), k, ncol(V))
     }
 
     for (iter_init in seq_len(initial_iterations)) {

@@ -4,20 +4,21 @@
 \alias{load_data}
 \title{Load and preprocess count data for NMF}
 \usage{
-load_data(counts, filter_th = 10, tau = 0.5, S_th = 0.001)
+load_data(counts, filter_th = 10, tau = 0.8, S_th = 0.001)
 }
 \arguments{
-\item{counts}{Numeric matrix of counts, where rows are features (e.g., genes)
+\item{counts}{Nonempty numeric matrix, data frame, or numeric Matrix object
+containing finite, nonnegative counts, where rows are features (e.g., genes)
 and columns are observations (e.g., spots or cells). Column names should
-encode positions in the form "x\if{html}{\out{<coord>}}x\if{html}{\out{<coord>}}".}
+encode positions in the form "\if{html}{\out{<coord>}}x\if{html}{\out{<coord>}}" (for example, "10x15").}
 
-\item{filter_th}{Numeric, minimum sum per row to keep a feature (default 10).
+\item{filter_th}{Finite nonnegative number, minimum sum per row to keep a feature (default 10).
 Features with row sums ≤ \code{filter_th} are removed.}
 
-\item{tau}{Numeric, target mean value for optimization of gamma (default 0.5).
+\item{tau}{Finite number in (0, 1], target mean value for optimization of gamma (default 0.8).
 This is used in computing the spatial similarity matrix.}
 
-\item{S_th}{Numeric, threshold below which entries of the similarity matrix
+\item{S_th}{Finite number in \link{0, 1}, threshold below which entries of the similarity matrix
 are set to zero (default 1e-3).}
 }
 \value{

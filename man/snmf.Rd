@@ -25,9 +25,9 @@ snmf(
 
 \item{k}{Integer, number of components used for the factorization, e.g. the number of cell-types used for deconvolution.}
 
-\item{Winit}{Initialization of W (default NULL).}
+\item{Winit}{Legacy W initialization (default NULL); checked for dimensions but replaced by random starts.}
 
-\item{Hinit}{Initialization of H (default NULL).}
+\item{Hinit}{Legacy H initialization (default NULL); checked for dimensions but replaced by random starts.}
 
 \item{niter}{Integer, maximum number of iterations for the NMF algorithm (default 2000).}
 
@@ -47,9 +47,9 @@ A list with six elements:
 \item{W}{Numeric matrix (features × k), representing basis vectors for features.}
 \item{H}{Numeric matrix (k × observations), representing coefficients for each observation.}
 \item{phi}{Numeric matrix (features × observations), representing the inverse-dispersion parameter for each entry.}
-\item{alpha}{Numeric vector of the number of features as dimension, representing the inverse-dispersion contribution of each gene.}
-\item{beta}{Numeric vector of the number of observations as dimension, representing the inverse-dispersion contribution of each spot.}
-\item{niter}{Number of iterations run until convergence.}
+\item{alpha}{One-row numeric matrix with one column per feature, representing the inverse-dispersion contribution of each gene.}
+\item{beta}{One-row numeric matrix with one column per observation, representing the inverse-dispersion contribution of each spot.}
+\item{niter}{Total iterations, including all random-start screening iterations.}
 }
 }
 \description{
@@ -70,7 +70,7 @@ This function performs spatially regularized NMF on the input count matrix:
 \examples{
 \dontrun{
 # counts and S returned from load_data()
-result <- snmf(counts, S, niter = 1000, Rupdate_iter=20, tol = 1e-4, num_initializations = 5)
+result <- snmf(counts, S, k = 5, niter = 1000, Rupdate_iter=20, tol = 1e-4, num_initializations = 5)
 W <- result$W
 H <- result$H
 }

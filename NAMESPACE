@@ -2,3 +2,10 @@
 
 export(load_data)
 export(snmf)
+importFrom(GPUmatrix,as.matrix)
+importFrom(GPUmatrix,colSums)
+importFrom(GPUmatrix,mean)
+importFrom(GPUmatrix,ncol)
+importFrom(GPUmatrix,nrow)
+importFrom(GPUmatrix,rowSums)
+importFrom(GPUmatrix,t)
