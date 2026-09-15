@@ -20,18 +20,18 @@ factorize <- function(
       (objectClass == "gpu.matrix.torch" || objectClass == "gpu.matrix.tensorflow")) {
 
     if (is.null(Winit)) {
-      Winit <- gpu.matrix(
+      Winit <- GPUmatrix:::gpu.matrix(
         runif(nrow(V) * k), nrow(V), k,
-        dtype = dtype(V),
+        dtype = GPUmatrix:::dtype(V),
         type = GPUmatrix:::typeGPUmatrix(V),
         device = GPUmatrix:::device(V)
       )
     }
 
     if (is.null(Hinit)) {
-      Hinit <- gpu.matrix(
+      Hinit <- GPUmatrix:::gpu.matrix(
         runif(k * ncol(V)), k, ncol(V),
-        dtype = dtype(V),
+        dtype = GPUmatrix:::dtype(V),
         type = GPUmatrix:::typeGPUmatrix(V),
         device = GPUmatrix:::device(V)
       )
@@ -58,9 +58,9 @@ factorize <- function(
     R <- list(
       alpha = rep(0, nrow(V)),
       beta = rep(0, ncol(V)),
-      phi = gpu.matrix(
+      phi = GPUmatrix:::gpu.matrix(
         matrix(1e-4, nrow(V), ncol(V)),
-        dtype = dtype(V),
+        dtype = GPUmatrix:::dtype(V),
         type = GPUmatrix:::typeGPUmatrix(V),
         device = GPUmatrix:::device(V)
       ),
@@ -94,16 +94,16 @@ factorize <- function(
     if (!is.null(objectPackage) &&
         (objectClass == "gpu.matrix.torch" || objectClass == "gpu.matrix.tensorflow")) {
 
-      W_current <- gpu.matrix(
+      W_current <- GPUmatrix:::gpu.matrix(
         runif(nrow(V) * k), nrow(V), k,
-        dtype = dtype(V),
+        dtype = GPUmatrix:::dtype(V),
         type = GPUmatrix:::typeGPUmatrix(V),
         device = GPUmatrix:::device(V)
       )
 
-      H_current <- gpu.matrix(
+      H_current <- GPUmatrix:::gpu.matrix(
         runif(k * ncol(V)), k, ncol(V),
-        dtype = dtype(V),
+        dtype = GPUmatrix:::dtype(V),
         type = GPUmatrix:::typeGPUmatrix(V),
         device = GPUmatrix:::device(V)
       )
