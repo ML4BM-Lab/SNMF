@@ -108,7 +108,7 @@ load_data <- function(counts, filter_th=10, tau=0.8, S_th=1e-3){
         return((mean(Matrix::diag(S)) - tau)^2)
     }
 
-    gamma <- stats::optim(1, meanValue, method="BFGS", tau=tau, D2=D2)$par
+    gamma <- stats::optim(1, meanValue, method="L-BFGS-B", lower=1e-12, tau=tau, D2=D2)$par
 
     S <- exp(-gamma * as.matrix(stats::dist(cbind(x,y)))^2)
     S[S < S_th] <- 0 
